@@ -13,13 +13,16 @@ for (let key of keys) {
       display_input.innerHTML = "";
       display_output.innerHTML = "";
     } else if (value == "backspace") {
+      // Apagar o último dígito
       input = input.slice(0, -1);
       display_input.innerHTML = operatorInput(input);
     } else if (value == "=") {
+      // Mostrar resultado
       let result = eval(prepareInput(input));
       display_output.innerHTML = decimalOutput(result);
     } else if (value == "brackets") {
       if (
+        // Colocar a abertura dos parênteses
         input.indexOf("(") == -1 ||
         (input.indexOf("(") != -1 &&
           input.indexOf(")") != -1 &&
@@ -27,6 +30,7 @@ for (let key of keys) {
       ) {
         input += "(";
       } else if (
+        // Colocar fechamento dos parênteses
         (input.indexOf("(") != -1 && input.indexOf(")") == -1) ||
         (input.indexOf("(") != -1 &&
           input.indexOf(")") != -1 &&
@@ -45,11 +49,13 @@ for (let key of keys) {
   });
 }
 
+// Adicionar span com classe 'operator' para mudar estilo dos operadores
 function operatorInput(input) {
   let input_array = input.split("");
   let inpArrLen = input_array.length;
 
   for (let i = 0; i < inpArrLen; i++) {
+    // passar por todas as condições (todos os operadores, parênteses e porcentagem)
     if (input_array[i] == "*") {
       input_array[i] = ` <span class="operator">x</span> `;
     } else if (input_array[i] == "/") {
@@ -70,6 +76,7 @@ function operatorInput(input) {
   return input_array.join("");
 }
 
+// Colocar vírgula ou ponto (estilo BR -> milhares (.) / decimais (,))
 function decimalOutput(output) {
   let output_string = output.toString();
   let decimal = output_string.split(",")[1];
@@ -91,6 +98,7 @@ function decimalOutput(output) {
   return output_array.join("");
 }
 
+// Proíbe o usuário de colocar dois operadores seguidos
 function validateInput(value) {
   let last_input = input.slice(-1);
   let operators = ["+", "-", "*", "/"];
@@ -110,6 +118,7 @@ function validateInput(value) {
   return true;
 }
 
+// Símbolo de porcentagem com número válido
 function prepareInput(input) {
   let input_array = input.split("");
 
